@@ -1,84 +1,61 @@
-#include <iostream>
 #include <cstring>
+#include <iostream>
 
 using std::cout;
 using std::endl;
 
-template<class T>
-class Storage
-{
+template <class T> class Storage {
 private:
-    T m_val;
+  T m_val;
 
 public:
-    Storage(T value) {
-        m_val = value;
-    }
+  Storage(T value) { m_val = value; }
 
-    void print() {
-        cout << m_val << endl;
-    }
+  void print() { cout << m_val << endl; }
 
-    ~Storage() = default;
+  ~Storage() = default;
 };
 
-
-template<class T>
-class Storage<T*>
-{
+template <class T> class Storage<T *> {
 private:
-    T* m_val;
+  T *m_val;
 
 public:
+  Storage(T *val) { m_val = new T(*val); }
 
-    Storage(T* val) {
-        m_val = new T(*val);
-    }
+  void print() { cout << *m_val << endl; }
 
-    void print() {
-        cout << *m_val << endl;
-    }
-
-    ~Storage() {
-        delete[] m_val;
-    }
+  ~Storage() { delete[] m_val; }
 };
 
-template<>
-Storage<char*>::Storage(char* arr) {
-    int size = static_cast<int>(strlen(arr)) + 1;
-    m_val = new char[size];
+template <> Storage<char *>::Storage(char *arr) {
+  int size = static_cast<int>(strlen(arr)) + 1;
+  m_val = new char[size];
 
-    for (int i = 0; i < size; ++i) {
-        m_val[i] = arr[i];
-    }
+  for (int i = 0; i < size; ++i) {
+    m_val[i] = arr[i];
+  }
 }
 
-template<>
-void Storage<char*>::print() {
-    cout << m_val;
-}
+template <> void Storage<char *>::print() { cout << m_val; }
 
-template<>
-Storage<char*>::~Storage() {
-    delete[] m_val;
-}
+template <> Storage<char *>::~Storage() { delete[] m_val; }
 
 int main() {
-    Storage<int> myint(5);
-    myint.print();
+  Storage<int> myint(5);
+  myint.print();
 
-    int x = 7;
-    Storage<int*> myintptr(&x);
+  int x = 7;
+  Storage<int *> myintptr(&x);
 
-    x = 9;
-    myintptr.print();
+  x = 9;
+  myintptr.print();
 
-    char* name = new char[40]{ "Alex" };
+  char *name = new char[40]{"Alex"};
 
-    Storage< char*> myname(name);
+  Storage<char *> myname(name);
 
-    delete[] name;
+  delete[] name;
 
-    myname.print();
+  myname.print();
 }
