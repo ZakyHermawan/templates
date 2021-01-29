@@ -1,3 +1,3 @@
-templates
+Templates
 ===========
-my personal documentation while learning templates in C++
+my personal documentation while learning Templates in C++
